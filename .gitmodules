@@ -1,3 +1,6 @@
 [submodule "login-react-JWT-fontend"]
 	path = login-react-JWT-fontend
 	url = https://github.com/suhaimeeyk/login-react-JWT-fontend.git
+[submodule "login-react-JWT-backend"]
+	path = login-react-JWT-backend
+	url = https://github.com/suhaimeeyk/login-react-JWT-backend.git
