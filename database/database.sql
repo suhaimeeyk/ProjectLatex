@@ -70,6 +70,7 @@ CREATE TABLE `db_customer` (
   `customer_id` int(11) NOT NULL,
   `customer_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `customer_tel` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `db_users_id` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `catcustomer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -77,9 +78,9 @@ CREATE TABLE `db_customer` (
 -- Dumping data for table `db_customer`
 --
 
-INSERT INTO `db_customer` (`customer_id`, `customer_name`, `customer_tel`, `catcustomer_id`) VALUES
-(1, 'ลูกค้า ทดสอบ', '0845213659', 1),
-(2, 'ชาลิสา รอดเลย', '0745213659', 2);
+-- INSERT INTO `db_customer` (`customer_id`, `customer_name`, `customer_tel`, `catcustomer_id`) VALUES
+-- (1, 'ลูกค้า ทดสอบ', '0845213659', 1),
+-- (2, 'ชาลิสา รอดเลย', '0745213659', 2);
 
 -- --------------------------------------------------------
 
@@ -101,6 +102,7 @@ CREATE TABLE `db_data` (
   `data_pricetotal` float NOT NULL,
   `data_shareprice` int(11) NOT NULL,
   `data_depositprice` int(11) NOT NULL,
+--   `db_users_id` int(11) NOT NULL,
   `status_id` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -211,9 +213,9 @@ CREATE TABLE `db_users` (
 -- Dumping data for table `db_users`
 --
 
-INSERT INTO `db_users` (`users_id`, `users_name`, `users_tel`, `users_usersname`, `users_password`) VALUES
-(1, 'นายนพคุณ พงษ์ไทย', '0898087753', 'noppakunp', '123456'),
-(2, 'นายทดสอบ นามสมมุติ', '0861248953', 'Testterr123', '123456');
+-- INSERT INTO `db_users` (`users_id`, `users_name`, `users_tel`, `users_usersname`, `users_password`) VALUES
+-- (1, 'นายนพคุณ พงษ์ไทย', '0898087753', 'noppakunp', '123456'),
+-- (2, 'นายทดสอบ นามสมมุติ', '0861248953', 'Testterr123', '123456');
 
 --
 -- Indexes for dumped tables
