@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2021 at 09:40 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: Jan 25, 2023 at 04:57 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,7 @@ CREATE TABLE `db_catusers` (
 INSERT INTO `db_catusers` (`catusers_id`, `catusers_name`) VALUES
 (1, 'เจ้าของสวน'),
 (2, 'ลูกจ้าง'),
-(5, 'พนักงานรายวัน');
+(3, 'พนักงานรายวัน');
 
 -- --------------------------------------------------------
 
@@ -70,17 +70,18 @@ CREATE TABLE `db_customer` (
   `customer_id` int(11) NOT NULL,
   `customer_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `customer_tel` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `db_users_id` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `catcustomer_id` int(11) NOT NULL
+  `catcustomer_id` int(11) NOT NULL,
+  `db_users_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `db_customer`
 --
 
--- INSERT INTO `db_customer` (`customer_id`, `customer_name`, `customer_tel`, `catcustomer_id`) VALUES
--- (1, 'ลูกค้า ทดสอบ', '0845213659', 1),
--- (2, 'ชาลิสา รอดเลย', '0745213659', 2);
+INSERT INTO `db_customer` (`customer_id`, `customer_name`, `customer_tel`, `catcustomer_id`, `db_users_id`) VALUES
+(1, 'ลูกค้า ทดสอบ', '0845213659', 1, '1'),
+(2, 'ชาลิสา รอดเลย', '0745213659', 2, '2'),
+(7, 'นายมูฮำหมัด ปูติ', '0123456789', 3, '1');
 
 -- --------------------------------------------------------
 
@@ -102,7 +103,6 @@ CREATE TABLE `db_data` (
   `data_pricetotal` float NOT NULL,
   `data_shareprice` int(11) NOT NULL,
   `data_depositprice` int(11) NOT NULL,
---   `db_users_id` int(11) NOT NULL,
   `status_id` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -111,8 +111,29 @@ CREATE TABLE `db_data` (
 --
 
 INSERT INTO `db_data` (`data_id`, `data_date`, `data_usersid`, `cat_id`, `data_totalgallon`, `data_wgallon`, `data_disgallon`, `data_percent`, `data_dryrubber`, `data_price`, `data_pricetotal`, `data_shareprice`, `data_depositprice`, `status_id`) VALUES
-(1, '2021-06-12 07:47:00', 2, 2, 60.5, 5.2, 55.3, 30, 16.59, 60, 995.4, 0, 0, 0),
-(2, '2021-06-12 07:54:16', 2, 2, 60.5, 5.2, 55.3, 45, 24.885, 130, 3235.05, 0, 0, 0);
+(9, '2023-01-23 16:39:09', 1, 1, 100, 10, 90, 0, 18, 995, 17910, 0, 0, 0),
+(10, '2023-01-23 17:18:22', 7, 1, 23, 3, 20, 0, 5, 3235, 16175, 16175, 16175, 1),
+(11, '2023-01-23 16:39:30', 2, 1, 90, 40, 50, 0, 11.5, 3235, 37202.5, 0, 0, 0),
+(12, '2023-01-25 03:50:21', 7, 1, 100, 10, 90, 0, 27, 60, 1620, 810, 810, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `db_level`
+--
+
+CREATE TABLE `db_level` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `db_level`
+--
+
+INSERT INTO `db_level` (`id`, `name`) VALUES
+(1, 'ผู้ดูแลระบบ'),
+(2, 'ผู้ใช้ระบบ');
 
 -- --------------------------------------------------------
 
@@ -155,8 +176,6 @@ CREATE TABLE `db_pricerubbers` (
 --
 
 INSERT INTO `db_pricerubbers` (`pricerubbers_id`, `date_create`, `percent`, `price`) VALUES
-(1, '2021-06-12 09:23:46', '20to21', 995),
-(2, '2021-06-12 09:06:17', '22to23', 3235),
 (3, '2021-06-12 06:27:44', '24to25', 30),
 (4, '2021-06-12 06:27:44', '26to27', 40),
 (5, '2021-06-12 06:27:44', '28to29', 50),
@@ -192,7 +211,7 @@ CREATE TABLE `db_reveal` (
 INSERT INTO `db_reveal` (`reveal_id`, `users_id`, `reveal_date`, `reveal_datepay`, `reveal_total`, `reveal_pay`, `reveal_sumtotal`) VALUES
 (1, 2, '2021-06-12', '2021-06-19', 5000, 400, 3000),
 (2, 1, '2021-06-12', '2021-06-14', 300, 200, 0),
-(3, 0, '0000-00-00', '0000-00-00', 0, 0, 0);
+(3, 1, '0000-00-00', '0000-00-00', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -206,16 +225,18 @@ CREATE TABLE `db_users` (
   `users_tel` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `users_usersname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `users_password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `level` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `db_users`
 --
 
--- INSERT INTO `db_users` (`users_id`, `users_name`, `users_tel`, `users_usersname`, `users_password`) VALUES
--- (1, 'นายนพคุณ พงษ์ไทย', '0898087753', 'noppakunp', '123456'),
--- (2, 'นายทดสอบ นามสมมุติ', '0861248953', 'Testterr123', '123456');
+INSERT INTO `db_users` (`users_id`, `users_name`, `users_tel`, `users_usersname`, `users_password`, `level`) VALUES
+(1, 'นายซูไฮมี ยะโกะ', '1234567890', 'sam@gmail.com', '$2b$10$h/bpDzPrywQbo/oNBKJKXOkJEbZOGaLjCqYMEv2DzSb3x4FgioAJC', '1'),
+(2, 'นุชฟารีนา ปาลายา', '123456789', 'nuchfarinapalaya@gmail.com', '$2b$10$XCdF/9Zalf4pWnvvFWvPQ.O38z7UuIS0SERE2GKJWWPLxe.02rwU2', '2'),
+(3, 'test', '0123456789', 'test@gmail.com', '$2b$10$sMBdFBsQPhdGs6I9IhSBV.pA8lytYGyWBO9w52xAU.FePSHaEGYN6', '1'),
+(4, 'นายมูฮำหมัด ปูตีล่า', '0123456789', 'mad@gmail.com', '$2b$10$UzplXDhVLKDzNOEGMDZp2.PpKK4FrBlTPdKDsFDbNm7bCXgpAypZ6', '2');
 
 --
 -- Indexes for dumped tables
@@ -289,13 +310,13 @@ ALTER TABLE `db_catwithdraw`
 -- AUTO_INCREMENT for table `db_customer`
 --
 ALTER TABLE `db_customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `db_data`
 --
 ALTER TABLE `db_data`
-  MODIFY `data_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `data_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `db_manure`
@@ -319,7 +340,7 @@ ALTER TABLE `db_reveal`
 -- AUTO_INCREMENT for table `db_users`
 --
 ALTER TABLE `db_users`
-  MODIFY `users_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `users_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
